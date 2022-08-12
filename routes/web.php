@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -38,6 +39,7 @@ Route::delete('/blogs/{id}/delete', [App\Http\Controllers\BlogsController::class
 
 Route::post('/blogs/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store')->middleware('auth');
 
+Route::resource('users', UserController::class);
 
 
 

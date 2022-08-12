@@ -6,11 +6,15 @@
     <article>
         <div class="container">
 
-       
+            <div class="col-md-4">
+                @if($blog->image)
+                    <img src="/images/{{ $blog->image ? $blog->image: '' }}" alt="{{ str_limit($blog->title, 50) }}"  class="img-fluid image">
+                @endif
+            </div>
+            </br>
             <div class="col-md-12 p-2 bg-white"> 
                 <h2>{{ $blog->title }}</h2>
-            </div>
-        
+            </div>    
 
         <div class="col-md-12">
             <div class="btn-group">
@@ -28,6 +32,11 @@
                 <p>{{ $blog->description }}</p>
             </div>
         </div>
+
+        @if($blog->user)
+            Author: <a href="{{ route('users.show', $blog->user) }}">{{ $blog->user->name }}</a> Posted: {{ $blog->created_at->diffForHumans() }}
+        @endif
+        <hr>
 
         <h4>Display Comments</h4>
   

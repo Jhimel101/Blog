@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use App\Models\Comment;
 
 
-
 class BlogsController extends Controller
 {
     public function index(){
@@ -24,16 +23,27 @@ class BlogsController extends Controller
     
     public function store(Request $request){
         $input = $request-> all();
+        //image uploading 
+        if ($file=$request->file('image')) {
+            $name = uniqid() . $file->getClientOriginalName();
+            $file -> move('images/', $name);
+            $input['image'] = $name;
+        }
+
 
         $input['slug'] = Str::slug($request->title);
 
-        $blog = Blog::create($input);
-        $blog->slug = Str::slug($input['slug']);
+        //$blog = Blog::create($input);
+        $blogByUser = $request->user()->blogs()->create($input);
+        $blogByUser->slug = Str::slug($input['slug']);
         // $blog = new Blog();
         // $blog -> title = $request->title;
         // $blog -> description = $request->description;
         // $blog->save();
+        
         return redirect('/blogs')->with('status', 'Blog created successfully');
+
+
     }
 
     public function show($blog){

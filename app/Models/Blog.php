@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'slug'];
+    protected $fillable = ['title', 'description', 'slug', 'user_id', 'image'];
 
     public function getRouteKeyName()
         {
@@ -18,7 +18,12 @@ class Blog extends Model
     public function comments()
         {
             return $this->hasMany(Comment::class)->whereNull('parent_id');
-        }    
+        }   
+    
+        public function user()
+        {
+            return $this->belongsTo(User::class);
+        }
 
 }
 
